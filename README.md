@@ -17,7 +17,7 @@ The following facilities are provided:
 
 To install use the following command:
 
-`pip install lib4sbom`
+`pip install lib4vex`
 
 Alternatively, just clone the repo and install dependencies using the following command:
 
