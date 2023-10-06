@@ -1,1 +1,2 @@
-lib4sbom
+lib4sbom >= 0.5.0
+csaf-tool

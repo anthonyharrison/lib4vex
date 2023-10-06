@@ -58,14 +58,13 @@ class VEXGenerator:
             self.element_set = {}
             if self.vex_type == "openvex":
                 self.vex.generate_openvex(vex_data)
-                self.vex = self.vex.get_document()
             elif self.vex_type == "cyclonedx":
                 self.vex.generate_cyclonedx(vex_data)
-                self.vex = self.vex.get_document()
             else:
-                print ("CSAF not supported yet.")
+                self.vex.generate_csaf(vex_data)
+            #self.vex = self.vex.get_document()
             if send_to_output:
                 sbom_out = SBOMOutput(filename, output_format="json")
-                sbom_out.generate_output(self.vex)
+                sbom_out.generate_output(self.vex.get_document())
 
 # End of file
