@@ -17,8 +17,10 @@ class CycloneDXVEXParser:
             return None
 
     def parse_cyclonedx_json(self, filename):
-        vulnerabilities = []
         cdx_parser = SBOMParser()
         # Load SBOM - will autodetect SBOM type
         cdx_parser.parse_file(filename)
-        return vulnerabilities
+        product = cdx_parser.get_packages()
+        metadata = cdx_parser.get_document()
+
+        return metadata, product, cdx_parser.get_vulnerabilities()

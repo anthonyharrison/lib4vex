@@ -19,6 +19,7 @@ class OpenVEXGenerator:
         return datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
     def generate_header(self):
+        id = 9876
         self.doc["@context"] = "https://openvex.dev/ns"
         self.doc["@id"] = f"https://openvex.dev/docs/public/vex-{id}"
         self.doc["author"] = self.author
@@ -34,6 +35,7 @@ class OpenVEXGenerator:
             vuln_info.copy_vulnerability(vuln)
             vulnerability = {}
             vulnerability["vulnerability"] = vuln_info.get_value("id")
+            vulnerability["timestamp"] = self.doc["timestamp"]
             products = []
             # Only one product
             products.append(f'pkg:{vuln_info.get_value("product")}@{vuln_info.get_value("release")}')

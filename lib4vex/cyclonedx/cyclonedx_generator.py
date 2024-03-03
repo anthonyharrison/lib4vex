@@ -17,9 +17,9 @@ class CycloneDXVEXGenerator:
         self.sbom = SBOM()
         self.sbom_document = SBOMGenerator(format='json', sbom_type='cyclonedx', application="lib4vex", version=VERSION)
 
-    def generate_cyclonedx(self, vulnerabilities):
+    def generate_cyclonedx(self, vulnerabilities, project_name, components):
         self.sbom.add_vulnerabilities(vulnerabilities)
-        self.sbom_document.generate(project_name="TestVEX", sbom_data = self.sbom.get_sbom(), send_to_output=False)
+        self.sbom_document.generate(project_name=project_name, sbom_data = self.sbom.get_sbom(), send_to_output=False)
 
     def get_document(self):
         return self.sbom_document.get_sbom()

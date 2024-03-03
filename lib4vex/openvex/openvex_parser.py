@@ -19,6 +19,7 @@ class OpenVEXParser:
 
     def parse_openvex_json(self, filename):
         data = json.load(open(filename))
+        product_info = {}
         # Extract header info
         header={}
         header["id"]=data["@id"]
@@ -33,9 +34,12 @@ class OpenVEXParser:
             vuln_info.initialise()
             vuln_info.set_id(vulnerability["vulnerability"])
             product = vulnerability["products"]
-            vuln_info.set_name(product[0].split("@")[0])
-            vuln_info.set_release(product[0].split("@")[1])
+            name=product[0].split("@")[0].split(":")[1]
+            release=product[0].split("@")[1]
+            vuln_info.set_name(name)
+            vuln_info.set_release(release)
             vuln_info.set_status(vulnerability["status"])
-            vuln_info.set_comment(vulnerability["justification"])
-            vulnerabilities.append(vuln_info)
-        return header, vulnerabilities
+            vuln_info.set_value("justification", vulnerability.get("justification",""))
+            product_info[name]={"name":name, "version": release}
+            vulnerabilities.append(vuln_info.get_vulnerability())
+        return header, product_info, vulnerabilities

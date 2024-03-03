@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Anthony Harrison
+# Copyright (C) 2024 Anthony Harrison
 # SPDX-License-Identifier: Apache-2.0
 
 import os
@@ -22,8 +22,23 @@ class VEXParser:
             self.vex = CSAFVEXParser()
         self.vex_complete = False
         self.debug = os.getenv("LIB4VEX_DEBUG") is not None
+        self.metadata = {}
+        self.product = []
+        self.vulnerabilities = []
 
     def parse(self, filename):
-        return self.vex.parse(filename)
+        self.metadata, self.product, self.vulnerabilities = self.vex.parse(filename)
+
+    def get_type(self):
+        return self.vex_type
+
+    def get_metadata(self):
+        return self.metadata
+
+    def get_product(self):
+        return self.product
+
+    def get_vulnerabilities(self):
+        return self.vulnerabilities
 
 

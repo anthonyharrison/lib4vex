@@ -1,0 +1,74 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:b1eb5c03-a8b3-483c-859f-a7084b130a5f",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2024-02-26T18:26:42Z",
+    "tools": {
+      "components": [
+        {
+          "name": "lib4vex",
+          "version": "0.1.0",
+          "type": "application"
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "bom-ref": "CDXRef-DOCUMENT",
+      "name": "TestVEX"
+    }
+  },
+  "vulnerabilities": [
+    {
+      "bom-ref": "cpe:2.3:o:microsoft:windows_7:sp1:*:*:*:*:*:*:*",
+      "id": "CVE-2017-0144",
+      "source": {
+        "name": "NVD",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-0144"
+      },
+      "description": "https://nvd.nist.gov/vuln/detail/cve-2017-0144",
+      "updated": "2024-02-26T18:26:42Z",
+      "created": "2024-02-26T18:26:42Z",
+      "analysis": {
+        "state": "not_affected",
+        "detail": "The SMB service is turned off. The medical device restricts acesss to the O/S to field service personnel. The medical devices is segmented from the hospital network through the use of an instrument firewall. The medical device only allows the installation/execution of known/trusted components.",
+        "justification": "protected_at_runtime"
+      },
+      "affects": [
+        {
+          "ref": "cpe:2.3:o:microsoft:windows_7:sp1:*:*:*:*:*:*:*",
+          "versions": {
+            "version": "3.0",
+            "status": "unknown"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:generic/Bob/Bobs-Browser@12.1",
+      "id": "CVE-2023-1000",
+      "source": {
+        "name": "NVD",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1000"
+      },
+      "description": "Artificial CVE for Bobs Browser",
+      "updated": "2024-02-26T18:26:42Z",
+      "created": "2024-02-26T18:26:42Z",
+      "analysis": {
+        "state": "in_triage"
+      },
+      "affects": [
+        {
+          "ref": "pkg:generic/Bob/Bobs-Browser@12.1",
+          "versions": {
+            "version": "v12.1",
+            "status": "unknown"
+          }
+        }
+      ]
+    }
+  ]
+}
