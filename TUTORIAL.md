@@ -177,15 +177,22 @@ A summary of the components within the product are as follows
 
 ### 2. SBOM Scan
 
-The following vulnerabilities are identified:
+The following vulnerabilities are identified for components in the SBOM:
 
 | Vulnerability Id | Component  | Version | PURL Identifier           |
 |------------------|------------|---------|---------------------------|
 | CVE-2023-12345   | pyaml      | 6.0.1   | pkg:pypi/pyyaml@6.0.1     |
 | CVE-2024-1234    | defusedxml | 0.7.1   | pkg:pypi/defusedxml@0.7.1 |
+
+An additional vulnerability (CVE-2024-0987) is also identified for a component which is not included in the product. This is to consider a scenario
+where a component was included in a previous release of the product but has been removed in the current release of the product.
+
+| Vulnerability Id | Component  | Version | PURL Identifier           |
+|------------------|------------|---------|---------------------------|
 | CVE-2024-0987    | Spring     | 3.2.1   | pkg:maven/spring@3.2.1    |
 
-**Note** that CVE-2024-0987 is for a component which is not included in the product.
+A scenario could be envisaged where a superset of all vulnerabilities across multiple releases of a product are assembled, before the respective VEX
+documents are produced for each product release.
 
 ### 3. Create Initial VEX Document
 
