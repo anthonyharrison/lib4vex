@@ -18,17 +18,17 @@ class OpenVEXGenerator:
         # Generate data/time label in format YYYY-MM-DDThh:mm:ssZ
         return datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
-    def generate_header(self):
+    def generate_header(self, version="1"):
         id = 9876
         self.doc["@context"] = "https://openvex.dev/ns"
         self.doc["@id"] = f"https://openvex.dev/docs/public/vex-{id}"
         self.doc["author"] = self.author
         self.doc["role"] = self.creator
         self.doc["timestamp"] = self._generateTime()
-        self.doc["version"] = "1"
+        self.doc["version"] = version
 
-    def generate_openvex(self, vulnerabilities):
-        self.generate_header()
+    def generate_openvex(self, vulnerabilities, doc_version="1"):
+        self.generate_header(doc_version)
         statements = []
         for vuln in vulnerabilities:
             vuln_info = Vulnerability(validation="openvex")
@@ -50,3 +50,6 @@ class OpenVEXGenerator:
 
     def get_document(self):
         return self.doc
+
+    def get_revision(self):
+        return self.doc.get("version","0")
