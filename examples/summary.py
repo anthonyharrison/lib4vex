@@ -11,13 +11,15 @@ vexparser = VEXParser(vex_type=vextype)
 vexparser.parse(sys.argv[1])
 
 # Extract key elements of VEX document
-#metadata=vexparser.get_metadata()
-#print (metadata)
 vexmetadata=VEXMetadata()
 vexmetadata.set_metadata(vexparser.get_metadata())
+print ("METADATA===========")
+print(vexmetadata.show_metadata())
 # Product information
 product=vexparser.get_product()
 print ("PRODUCT=============")
+print(product)
+
 for key in product:
     #print (key)
     #print (product[key])
@@ -27,23 +29,15 @@ for key in product:
     #print (vexproduct.get_release())
 
 # Reported vulnerabilities
-print ("VULN==========")
+print ("VULNERABILITY STATUS")
+print ("====================")
+print ("\n")
 vulnerabilities=vexparser.get_vulnerabilities()
 for v in vulnerabilities:
-    #print(v)
+    print(v)
     print ("ID", v.get("id"))
     print ("Last update", v.get('created'))
     print ("Description", v.get("description"))
     print ("Status", v.get("status"))
     if v.get("justification") is not None:
         print ("Justification", v.get("justification"))
-
-
-
-
-
-
-
-
-
-
