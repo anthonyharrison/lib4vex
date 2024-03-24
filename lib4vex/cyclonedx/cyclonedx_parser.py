@@ -17,7 +17,7 @@ class CycloneDXVEXParser:
             return None
 
     def parse_cyclonedx_json(self, filename):
-        cdx_parser = SBOMParser()
+        cdx_parser = SBOMParser(sbom_type="cyclonedx")
         # Load SBOM - will autodetect SBOM type
         cdx_parser.parse_file(filename)
         product = cdx_parser.get_packages()
