@@ -17,17 +17,19 @@ vextype="csaf"
 
 vexgen = VEXGenerator(vex_type=vextype, author="ACME-Hospital-Division")
 
-#vexgen.set_product(name="ACME Infusion", release="1.0", sbom="samples/ACME-INFUSION-1-0.cdx.json")
-vexgen.set_product(name="ACME Infusion", release="1.0", sbom="")
+vexgen.set_product(name="ACME Infusion", release="1.0", sbom="samples/ACME-INFUSION-1-0.cdx.json")
+#vexgen.set_product(name="ACME Infusion", release="1.0", sbom="")
+#vexgen.set_product(name="ACME Infusion", release="1.0", sbom="samples/example.json")
 
 metadata={}
 metadata["id"]="ACME-INFUSION-1.0-VEX-DRAFT"
 metadata["title"]="ACME-INFUSION-1.0-VEX-DRAFT Use Case complete"
 metadata["comment"]="Draft ACME INFUSION PoC II VEX document. Unofficial content for demonstration purposes only."
 metadata["supplier"]="Fred Flintstone"
-metadata["supplier_url"]="fredflintstome@acme.com"
+metadata["supplier_url"]="fredflintstone@acme.com"
 metadata["author_url"]="http://www.hospitalproducts.acme"
 metadata["status"]="draft"
+#metadata["revision_reason"]="Update following software assessment"
 
 vulnerabilities = []
 
@@ -49,8 +51,9 @@ vulnerabilities = []
 vulnerability = Vulnerability(validation=vextype)
 vulnerability.set_id("CVE-2017-0144")
 vulnerability.set_value("description","https://nvd.nist.gov/vuln/detail/cve-2017-0144")
-vulnerability.set_name("Windows Embedded Standard 7 with SP1 patches")
-vulnerability.set_release("3.0")
+#vulnerability.set_name("Windows Embedded Standard 7 with SP1 patches")
+#vulnerability.set_release("3.0")
+vulnerability.set_value("purl","pkg:pypi/lib4vex@0.1.0")
 #vulnerability.set_value("vendor", "Microsoft")
 #vulnerability.set_value("bom-ref", "cpe:2.3:o:microsoft:windows_7:sp1:*:*:*:*:*:*:*")
 vulnerability.set_status("known_not_affected")
