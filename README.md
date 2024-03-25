@@ -42,12 +42,12 @@ Creating the environment variable _**LIB4VEX_DEBUG**_ will result in some additi
 
 ## Examples
 
-A number of example scripts are included in the _examples_ subdirectory. Examples are provided for CSAF and CycloneDX scenarios.
+A number of example scripts are included in the _examples_ subdirectory. Examples are provided for CSAF, CycloneDX and OpenVEX scenarios.
 
 ## Tutorial
 
 A tutorial showing a lifecycle of vulnerabilities is [available](TUTORIAL.md). Whilst the tutorial uses CSAF as the VEX document, equivalent
-steps can be performed for producing a VEX document using CycloneDX.
+steps can be performed for producing a VEX document using CycloneDX or OpenVEX.
 						
 ## Implementation Notes
 
@@ -57,11 +57,11 @@ The following design decisions have been made in creating and processing VEX fil
 
 2. The VEX document contains all reported vulnerabilities and the respective status. The latest VEX is indicated by the latest timestamp. The previous VEX documents are retained for audit purposes.
 
+3. The VEX document is intended to be used for a single product.
+
 ## Future Development
 
-1. Complete OpenVEX support
-
-2. Add support for SPDX Security profile when released as part of the SPDX 3.0 release.
+1. Add support for SPDX Security profile when released as part of the SPDX 3.0 release.
 
 ## License
 
