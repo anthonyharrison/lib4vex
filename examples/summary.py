@@ -21,18 +21,16 @@ print ("PRODUCT=============")
 print(product)
 
 for key in product:
-    #print (key)
-    #print (product[key])
     vexproduct = VEXProduct()
     vexproduct.set_product(key,product[key])
     print (f"VEX document for {vexproduct.get_name()} release {vexproduct.get_release()} produced on {vexmetadata.get_date()}")
-    #print (vexproduct.get_release())
 
 # Reported vulnerabilities
+vulnerabilities=vexparser.get_vulnerabilities()
 print ("VULNERABILITY STATUS")
 print ("====================")
+print(vulnerabilities)
 print ("\n")
-vulnerabilities=vexparser.get_vulnerabilities()
 for v in vulnerabilities:
     print(v)
     print ("ID", v.get("id"))
