@@ -3,6 +3,7 @@
 
 import os
 import json
+from packageurl import PackageURL
 
 from lib4sbom.data.vulnerability import Vulnerability
 
@@ -32,14 +33,22 @@ class OpenVEXParser:
         vuln_info = Vulnerability(validation="openvex")
         for vulnerability in data["statements"]:
             vuln_info.initialise()
-            vuln_info.set_id(vulnerability["vulnerability"])
-            product = vulnerability["products"]
-            name=product[0].split("@")[0].split(":")[1]
-            release=product[0].split("@")[1]
-            vuln_info.set_name(name)
-            vuln_info.set_release(release)
+            vuln_info.set_id(vulnerability["vulnerability"]["name"])
+            # Only expecting one product
+            for p in vulnerability["products"]:
+                purl = PackageURL.from_string(p["@id"]).to_dict()
+                name=purl['name']
+                release=purl['version']
+                vuln_info.set_value("purl", p["@id"])
+                vuln_info.set_name(name)
+                vuln_info.set_release(release)
             vuln_info.set_status(vulnerability["status"])
-            vuln_info.set_value("justification", vulnerability.get("justification",""))
+            vuln_info.set_value("created", vulnerability["timestamp"])
+            if vulnerability.get("justification") is not None:
+                vuln_info.set_value("justification", vulnerability.get("justification"))
+            if vulnerability.get("action_statement") is not None:
+                vuln_info.set_value("comment", vulnerability.get("action_statement"))
+                vuln_info.set_value("action_timestamp", vulnerability.get("action_statement"))
             product_info[name]={"name":name, "version": release}
             vulnerabilities.append(vuln_info.get_vulnerability())
         return header, product_info, vulnerabilities

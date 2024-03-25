@@ -1,2 +1,3 @@
 lib4sbom >= 0.7.0
 csaf-tool >= 0.3.0
+packageurl-python

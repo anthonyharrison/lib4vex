@@ -178,7 +178,7 @@ class VEXGenerator:
                 print(vex_vulnerabilities)
             self.element_set = {}
             if self.vex_type == "openvex":
-                self.vex.generate_openvex(vex_vulnerabilities, metadata.get("bom_version","0"))
+                self.vex.generate_openvex(vex_vulnerabilities, metadata)
             elif self.vex_type == "cyclonedx":
                 self.vex.generate_cyclonedx(vex_vulnerabilities, project_name, metadata)
             else:
