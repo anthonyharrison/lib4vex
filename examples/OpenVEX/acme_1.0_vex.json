@@ -1,0 +1,52 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://openvex.dev/docs/public/vex-4a95f511b378400d9355bf48059e3165",
+  "author": "Unknown author",
+  "role": "Document Creator",
+  "timestamp": "2024-03-25T15:45:26",
+  "version": "4",
+  "statements": [
+    {
+      "vulnerability": {
+        "@id": "https://nvd.nist.gov/vuln/detail/CVE-2024-6789",
+        "name": "CVE-2024-6789"
+      },
+      "timestamp": "2024-03-25T15:45:26",
+      "products": [
+        {
+          "@id": "pkg:generic/pyyaml@6.0.1"
+        }
+      ],
+      "status": "affected",
+      "action_statement": "The payload could be manipulated leading to a DDOS attack on the product.",
+      "action_statement_timestamp": "2024-03-25T15:45:26"
+    },
+    {
+      "vulnerability": {
+        "@id": "https://nvd.nist.gov/vuln/detail/CVE-2023-12345",
+        "name": "CVE-2023-12345"
+      },
+      "timestamp": "2024-03-25T15:45:19",
+      "products": [
+        {
+          "@id": "pkg:generic/pyyaml@6.0.1"
+        }
+      ],
+      "status": "not_affected",
+      "justification": "vulnerable_code_not_in_execute_path"
+    },
+    {
+      "vulnerability": {
+        "@id": "https://nvd.nist.gov/vuln/detail/CVE-2024-1234",
+        "name": "CVE-2024-1234"
+      },
+      "timestamp": "2024-03-25T15:45:15",
+      "products": [
+        {
+          "@id": "pkg:pypi/defusedxml@0.7.1"
+        }
+      ],
+      "status": "under_investigation"
+    }
+  ]
+}

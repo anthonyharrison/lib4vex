@@ -1,0 +1,109 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:3085acbf-9b5d-44ec-be2e-2fdb3b115ec0",
+  "version": 4,
+  "metadata": {
+    "timestamp": "2024-03-24T16:15:32Z",
+    "tools": {
+      "components": [
+        {
+          "name": "lib4vex",
+          "version": "0.1.0",
+          "type": "application"
+        }
+      ]
+    },
+    "properties": [
+      {
+        "name": "Revision_1",
+        "value": "Initial version"
+      },
+      {
+        "name": "Revision_2",
+        "value": "Product Review initiated."
+      },
+      {
+        "name": "Revision_3",
+        "value": "New vulnerability CVE-2024-6789 detected."
+      },
+      {
+        "name": "Revision_4",
+        "value": "Confirmed that vulnerability CVE-2024-6789 is exploitable"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "CDXRef-DOCUMENT",
+      "name": "ACME_Infusion"
+    }
+  },
+  "vulnerabilities": [
+    {
+      "bom-ref": "pyyaml@6.0.1",
+      "id": "CVE-2024-6789",
+      "source": {
+        "name": "NVD",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6789"
+      },
+      "published": "2024-03-24T16:15:32Z",
+      "updated": "2024-03-24T16:15:32Z",
+      "analysis": {
+        "state": "exploitable",
+        "detail": "The payload could be manipulated leading to a DDOS attack on the product."
+      },
+      "affects": [
+        {
+          "ref": "urn:cdx:b355491d-a6e7-499e-a273-071b2ef3d086/1#pyyaml-6.0.1",
+          "versions": {
+            "status": "affected"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "pyyaml@6.0.1",
+      "id": "CVE-2023-12345",
+      "source": {
+        "name": "NVD",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-12345"
+      },
+      "published": "2024-03-24T16:15:04Z",
+      "updated": "2024-03-24T16:15:32Z",
+      "analysis": {
+        "state": "not_affected",
+        "justification": "code_not_reachable"
+      },
+      "affects": [
+        {
+          "ref": "urn:cdx:b355491d-a6e7-499e-a273-071b2ef3d086/1#pyyaml-6.0.1",
+          "versions": {
+            "status": "unaffected"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:pypi/defusedxml@0.7.1",
+      "id": "CVE-2024-1234",
+      "source": {
+        "name": "NVD",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1234"
+      },
+      "published": "2024-03-24T16:14:56Z",
+      "updated": "2024-03-24T16:15:32Z",
+      "analysis": {
+        "state": "in_triage"
+      },
+      "affects": [
+        {
+          "ref": "urn:cdx:b355491d-a6e7-499e-a273-071b2ef3d086/1#pkg:pypi/defusedxml@0.7.1",
+          "versions": {
+            "status": "unknown"
+          }
+        }
+      ]
+    }
+  ]
+}
