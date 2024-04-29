@@ -47,7 +47,9 @@ class CSAFVEXGenerator:
                 status=csaf_vuln.get_value("status"),
                 comment=csaf_vuln.get_value("comment"),
                 justification=csaf_vuln.get_value("justification"),
-                created=csaf_vuln.get_value("created")
+                created=csaf_vuln.get_value("created"),
+                remediation=csaf_vuln.get_value("remediation"),
+                action=csaf_vuln.get_value("action")
             )
         self.csaf_gen.generate_csaf()
     def get_document(self):
