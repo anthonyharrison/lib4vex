@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Anthony Harrison
+# Copyright (C) 2024 Anthony Harrison
 # SPDX-License-Identifier: Apache-2.0
 
 import os
@@ -7,6 +7,7 @@ from pathlib import Path
 
 from lib4vex.cyclonedx.cyclonedx_generator import CycloneDXVEXGenerator
 from lib4vex.openvex.openvex_generator import OpenVEXGenerator
+from lib4vex.spdx.spdx_generator import SPDXVEXGenerator
 from lib4vex.csaf.csaf_generator import CSAFVEXGenerator
 from lib4vex.parser import VEXParser
 
@@ -61,13 +62,15 @@ class VEXGenerator:
     def set_type(self, vex_type, author=""):
         # Allow overide of vex_type
         self.vex_type = vex_type.lower()
-        if self.vex_type not in ["openvex", "cyclonedx", "csaf"]:
+        if self.vex_type not in ["openvex", "cyclonedx", "csaf", "spdx"]:
             # Set a default SBOM type
             self.vex_type = "openvex"
         if self.vex_type == "openvex":
             self.vex = OpenVEXGenerator()
         elif vex_type == "cyclonedx":
             self.vex = CycloneDXVEXGenerator()
+        elif vex_type == "spdx":
+            self.vex = SPDXVEXGenerator()
         else:
             self.vex = CSAFVEXGenerator(author=author)
 
@@ -168,7 +171,6 @@ class VEXGenerator:
                         print (f"Add {orig_vuln['id']}")
                     orig_vuln['update']=False
                     vex_data.append(orig_vuln)
-
         if len(vex_data) > 0:
             if self.debug:
                 print(vex_data)
@@ -181,6 +183,8 @@ class VEXGenerator:
                 self.vex.generate_openvex(vex_vulnerabilities, metadata)
             elif self.vex_type == "cyclonedx":
                 self.vex.generate_cyclonedx(vex_vulnerabilities, project_name, metadata)
+            elif self.vex_type == "spdx":
+                self.vex.generate_spdx(vex_vulnerabilities, metadata, self.product)
             else:
                 self.vex.generate_csaf(vex_vulnerabilities, metadata, self.product)
             if send_to_output:

@@ -6,18 +6,21 @@ import os
 from lib4vex.cyclonedx.cyclonedx_parser import CycloneDXVEXParser
 from lib4vex.openvex.openvex_parser import OpenVEXParser
 from lib4vex.csaf.csaf_parser import CSAFVEXParser
+from lib4vex.spdx.spdx_parser import SPDXVEXParser
 
 class VEXParser:
 
     def __init__(self, vex_type = "openvex"):
         self.vex_type = vex_type.lower()
-        if self.vex_type not in ["openvex", "cyclonedx", "csaf"]:
+        if self.vex_type not in ["openvex", "cyclonedx", "csaf", "spdx"]:
             # Set a default SBOM type
             self.vex_type = "openvex"
         if self.vex_type == "openvex":
             self.vex = OpenVEXParser()
         elif vex_type == "cyclonedx":
             self.vex = CycloneDXVEXParser()
+        elif vex_type == "spdx":
+            self.vex = SPDXVEXParser()
         else:
             self.vex = CSAFVEXParser()
         self.vex_complete = False
