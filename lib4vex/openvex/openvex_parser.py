@@ -23,13 +23,17 @@ class OpenVEXParser:
         product_info = {}
         # Extract header info
         header={}
+        vulnerabilities = []
+        if data.get("@id") is None:
+            # Doesn't look like a OPENVEX document
+            return header, product_info, vulnerabilities
+
         header["id"]=data["@id"]
         header["author"]=data["author"]
         header["role"]=data["role"]
         header["timestamp"]=data["timestamp"]
         header["version"]=data["version"]
         # Extract vulnerability info
-        vulnerabilities = []
         vuln_info = Vulnerability(validation="openvex")
         for vulnerability in data["statements"]:
             vuln_info.initialise()
