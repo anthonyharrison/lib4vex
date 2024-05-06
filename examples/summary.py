@@ -6,6 +6,7 @@ import sys
 
 vextype=sys.argv[2]
 
+print (f"Vextype {vextype}")
 vexparser = VEXParser(vex_type=vextype)
 # Read VEX file
 vexparser.parse(sys.argv[1])
