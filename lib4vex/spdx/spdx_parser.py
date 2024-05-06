@@ -32,6 +32,10 @@ class SPDXVEXParser:
         vulnerabilities = []
         vuln_info = Vulnerability(validation="spdx")
 
+        if data.get("@graph") is None:
+            # Doesn't look like an SPDX document
+            return header, product_info, vulnerabilities
+
         for element in data["@graph"]:
             element_type  = element.get("type")
             if element_type is None:
@@ -41,6 +45,7 @@ class SPDXVEXParser:
                 element_id = element.get("spdxId")
             if element_type == "CreationInfo":
                 header["timestamp"]=element["created"]
+                header["specVersion"]=element["specVersion"]
             elif element_type == "Person":
                 header["supplier"] = element["name"]
                 if "externalIdentifier" in element:
@@ -68,9 +73,11 @@ class SPDXVEXParser:
                 vuln_info.set_name(name)
                 vuln_info.set_release(version)
                 vuln_info.set_value("created", element["publishedTime"])
-                if element.get("justification") is not None:
-                    vuln_info.set_value("justification", element.get("justification"))
-                if element.get("action_statement") is not None:
+                if element.get("justificationType") is not None:
+                    vuln_info.set_value("justification", element.get("justificationType"))
+                if element.get("impactStatementTime") is not None:
+                    vuln_info.set_value("action_timestamp", element.get("impactStatementTime"))
+                if element.get("actionStatement") is not None:
                     vuln_info.set_value("comment", element.get("actionStatement"))
                     vuln_info.set_value("action_timestamp", element.get("actionStatementTime"))
                 # Product information
