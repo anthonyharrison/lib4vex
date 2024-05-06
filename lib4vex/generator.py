@@ -149,12 +149,16 @@ class VEXGenerator:
         if vex_update:
             vexparser = VEXParser(vex_type=self.vex_type)
             # Read VEX file
+            if self.debug:
+                print (f"[PARSE] Parse vex file {filename}")
             vexparser.parse(filename)
             orig_metadata = vexparser.get_metadata()
             for attribute in orig_metadata.keys():
                 # Copy metadata if not already specified
                 if metadata.get(attribute) is None:
                     metadata[attribute]=orig_metadata[attribute]
+            if self.debug:
+                print (metadata)
             orig_vulnerabilities = vexparser.get_vulnerabilities()
             if self.debug:
                 print(orig_vulnerabilities)
@@ -182,7 +186,7 @@ class VEXGenerator:
             if self.vex_type == "openvex":
                 self.vex.generate_openvex(vex_vulnerabilities, metadata)
             elif self.vex_type == "cyclonedx":
-                self.vex.generate_cyclonedx(vex_vulnerabilities, project_name, metadata)
+                self.vex.generate_cyclonedx(vex_vulnerabilities, self.product, metadata)
             elif self.vex_type == "spdx":
                 self.vex.generate_spdx(vex_vulnerabilities, metadata, self.product)
             else:
