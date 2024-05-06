@@ -1,16 +1,16 @@
 {
-  "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
-  "specVersion": "1.5",
-  "serialNumber": "urn:uuid:3085acbf-9b5d-44ec-be2e-2fdb3b115ec0",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:12b65e04-84fd-4cc4-86f2-5ea520d1e747",
   "version": 4,
   "metadata": {
-    "timestamp": "2024-03-24T16:15:32Z",
+    "timestamp": "2024-05-05T17:43:37Z",
     "tools": {
       "components": [
         {
           "name": "lib4vex",
-          "version": "0.1.0",
+          "version": "0.2.0",
           "type": "application"
         }
       ]
@@ -47,16 +47,20 @@
         "name": "NVD",
         "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6789"
       },
-      "published": "2024-03-24T16:15:32Z",
-      "updated": "2024-03-24T16:15:32Z",
+      "published": "2024-05-05T17:43:37Z",
+      "updated": "2024-05-05T17:43:37Z",
       "analysis": {
         "state": "exploitable",
-        "detail": "The payload could be manipulated leading to a DDOS attack on the product."
+        "detail": "Upgrade to version 6.0.2.",
+        "response": [
+          "update"
+        ]
       },
       "affects": [
         {
           "ref": "urn:cdx:b355491d-a6e7-499e-a273-071b2ef3d086/1#pyyaml-6.0.1",
           "versions": {
+            "version": "6.0.1",
             "status": "affected"
           }
         }
@@ -69,8 +73,8 @@
         "name": "NVD",
         "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-12345"
       },
-      "published": "2024-03-24T16:15:04Z",
-      "updated": "2024-03-24T16:15:32Z",
+      "published": "2024-05-05T17:43:26Z",
+      "updated": "2024-05-05T17:43:37Z",
       "analysis": {
         "state": "not_affected",
         "justification": "code_not_reachable"
@@ -79,6 +83,7 @@
         {
           "ref": "urn:cdx:b355491d-a6e7-499e-a273-071b2ef3d086/1#pyyaml-6.0.1",
           "versions": {
+            "version": "6.0.1",
             "status": "unaffected"
           }
         }
@@ -91,17 +96,14 @@
         "name": "NVD",
         "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1234"
       },
-      "published": "2024-03-24T16:14:56Z",
-      "updated": "2024-03-24T16:15:32Z",
+      "published": "2024-05-05T17:42:53Z",
+      "updated": "2024-05-05T17:43:37Z",
       "analysis": {
         "state": "in_triage"
       },
       "affects": [
         {
-          "ref": "urn:cdx:b355491d-a6e7-499e-a273-071b2ef3d086/1#pkg:pypi/defusedxml@0.7.1",
-          "versions": {
-            "status": "unknown"
-          }
+          "ref": "urn:cdx:b355491d-a6e7-499e-a273-071b2ef3d086/1#pkg:pypi/defusedxml@0.7.1"
         }
       ]
     }
