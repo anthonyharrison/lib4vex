@@ -68,7 +68,7 @@ class VEXGenerator:
         if self.vex_type == "openvex":
             self.vex = OpenVEXGenerator(author=author)
         elif vex_type == "cyclonedx":
-            self.vex = CycloneDXVEXGenerator()
+            self.vex = CycloneDXVEXGenerator(author=author)
         elif vex_type == "spdx":
             self.vex = SPDXVEXGenerator()
         else:
