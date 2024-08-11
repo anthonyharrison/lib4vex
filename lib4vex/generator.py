@@ -66,7 +66,7 @@ class VEXGenerator:
             # Set a default SBOM type
             self.vex_type = "openvex"
         if self.vex_type == "openvex":
-            self.vex = OpenVEXGenerator(author=author)
+            self.vex = OpenVEXGenerator()
         elif vex_type == "cyclonedx":
             self.vex = CycloneDXVEXGenerator()
         elif vex_type == "spdx":
