@@ -122,6 +122,7 @@ class SPDXVEXGenerator:
                     vulnerability["actionStatementTime"] = vuln_info.get_value("action_timestamp")
                 else:
                     vulnerability["actionStatementTime"] = self.document_generation_time
+                # TODO Remediation
             elif vuln_info.get_value("status") == "not_affected":
                 if "justification" in vuln:
                     vulnerability["justificationType"] = vuln_info.get_value("justification")
