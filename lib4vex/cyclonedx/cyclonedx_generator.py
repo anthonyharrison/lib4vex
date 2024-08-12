@@ -34,6 +34,7 @@ class CycloneDXVEXGenerator:
         if name != "#":
             self.document.set_creator("person",name)
         self.document.set_metadata_version(product["version"])
+        self.document.set_metadata_supplier(self.author)
         self.sbom.add_vulnerabilities(vulnerabilities)
         self.sbom.add_document(self.document.get_document())
         self.sbom_document.generate(project_name=product["name"], sbom_data = self.sbom.get_sbom(), send_to_output=False)
