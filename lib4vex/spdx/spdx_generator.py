@@ -4,6 +4,7 @@
 from datetime import datetime
 import uuid
 from lib4sbom.data.vulnerability import Vulnerability
+from packageurl import PackageURL
 
 class SPDXVEXGenerator:
     """
@@ -39,7 +40,7 @@ class SPDXVEXGenerator:
         # Tool
         creator = {}
         creator["type"] = "Tool"
-        creator["spdxId"] = "https://spdx.org/"
+        creator["spdxId"] = "https://spdx.org/lib4vex"
         creator["name"] = "lib4vex"
         creator["creationInfo"] = "_:creationinfo_0"
         self.doc["@graph"].append(creator)
@@ -108,6 +109,30 @@ class SPDXVEXGenerator:
                  },
         }
 
+        # Now add software packages
+        software_package = []
+        for vuln in vulnerabilities:
+            vuln_info = Vulnerability(validation="spdx")
+            vuln_info.copy_vulnerability(vuln)
+            purl = vuln_info.get_value("purl")
+            if purl is not None:
+                purl_id = PackageURL.from_string(purl).to_dict()
+                name=purl_id['name']
+                version=purl_id['version']
+            else:
+                name = vuln_info.get_value("product")
+                version = vuln_info.get_value("release")
+            if (name,version) not in software_package:
+                software_package.append((name,version))
+                software_package_info = {}
+                software_package_info["type"] = "software_Package"
+                software_package_info["spdxId"] = f'{self.domain}/Package/{name}-{version}'
+                software_package_info["creationInfo"] = "_:creationinfo_0"
+                software_package_info["name"] = name
+                software_package_info["software_packageVersion"] = version
+                #software_package_info["orignatedBy"] = [self.supplied_by]
+                self.doc["@graph"].append(software_package_info)
+
         vuln_id=0
         for vuln in vulnerabilities:
             vuln_info = Vulnerability(validation="spdx")
@@ -116,6 +141,7 @@ class SPDXVEXGenerator:
             vuln_attributes= vuln_properties[vuln_info.get_value("status")]
             vulnerability["type"] = vuln_attributes["type"]
             vulnerability["spdxId"] = f'{vuln_attributes["id"]}-{vuln_id}'
+            vulnerability["creationInfo"] = "_:creationinfo_0"
             vulnerability["relationshipType"] = vuln_attributes["relationship"]
             id = vuln_info.get_value("id")
             vulnerability["from"] = f"urn:spdx.dev:vuln-{id}"
@@ -123,11 +149,19 @@ class SPDXVEXGenerator:
             # Only one product
             # Could be a PURL
             purl = vuln_info.get_value("purl")
+            # if purl is not None:
+            #     vulnerability["security_assessedElement"] = f'urn:{purl.replace("pkg:","").replace("/","-").replace("@","-")}'
+            # else:
+            #     vulnerability["security_assessedElement"] = f'urn:generic-{vuln_info.get_value("product")}-{vuln_info.get_value("release")}'
             if purl is not None:
-                vulnerability["security_assessedElement"] = f'urn:{purl.replace("pkg:","").replace("/","-").replace("@","-")}'
+                purl_id = PackageURL.from_string(purl).to_dict()
+                name=purl_id['name']
+                version=purl_id['version']
             else:
-                vulnerability["security_assessedElement"] = f'urn:generic-{vuln_info.get_value("product")}-{vuln_info.get_value("release")}'
-            vulnerability["suppliedBy"] = [self.supplied_by]
+                name = vuln_info.get_value("product")
+                version = vuln_info.get_value("release")
+            vulnerability["security_assessedElement"] = f'{self.domain}/Package/{name}-{version}'
+            vulnerability["suppliedBy"] = self.supplied_by
             if vuln_info.get_value("status") == "affected":
                 if "comment" in vuln:
                     vulnerability["actionStatement"] = vuln_info.get_value("comment")
@@ -152,7 +186,6 @@ class SPDXVEXGenerator:
             vulnerability["completeness"] = "complete"
             self.doc["@graph"].append(vulnerability)
             vuln_id += 1
-        # Now add software SBOM type?
 
     def get_document(self):
         return self.doc
