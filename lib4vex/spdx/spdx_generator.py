@@ -9,6 +9,7 @@ class SPDXVEXGenerator:
     """
     Generate SPDX VEX documents.
     """
+    SPDX_VERSION = "3.0.1"
 
     def __init__(self, author ="Unknown author", creator = "Document Creator"):
         self.doc = {}
@@ -23,7 +24,7 @@ class SPDXVEXGenerator:
 
     def generate_header(self, version="1"):
         id = str(uuid.uuid4()).replace("-","")
-        spdx_version = "3.0.0"
+        spdx_version = self.SPDX_VERSION
         self.doc["@context"] = f"https://spdx.org/rdf/{spdx_version}/spdx-context.jsonld"
         self.doc["@graph"] = []
         # Creation info
