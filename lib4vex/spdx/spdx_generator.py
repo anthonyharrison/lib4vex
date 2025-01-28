@@ -30,19 +30,26 @@ class SPDXVEXGenerator:
         # Creation info
         creation = {}
         creation["type"] = "CreationInfo"
-        creation["@id"] = "_:creationinfo"
+        creation["@id"] = "_:creationinfo_0"
         creation["createdBy"] = ["urn:spdx.dev:lib4vex"]
         creation["specVersion"] = spdx_version
         creation["created"] = self.document_generation_time
         creation["comment"] = "This document has been automatically generated."
         self.doc["@graph"].append(creation)
+        # Tool
+        creator = {}
+        creator["type"] = "Tool"
+        creator["spdxId"] = "https://spdx.org/"
+        creator["name"] = "lib4vex"
+        creator["creationInfo"] = "_:creationinfo_0"
+        self.doc["@graph"].append(creator)
         # Creator info
         creator = {}
         creator["type"] = "Person"
-        creator["@id"] = "_:creationinfo"
         creator["spdxId"] = f'{self.domain}/Person/{self.author.replace(" ","")}'
+        self.supplied_by = creator["spdxId"]
         creator["name"] = self.author
-        creator["creationInfo"] = "_:creationinfo"
+        creator["creationInfo"] = "_:creationinfo_0"
         # if email
         creator["externalIdentifier"] = []
         extinfo = {}
@@ -50,20 +57,25 @@ class SPDXVEXGenerator:
         extinfo["externalIdentifierType"] = "email"
         extinfo["identifier"] = self.author_email
         creator["externalIdentifier"].append(extinfo)
+        creator["creationInfo"] = "_:creationinfo_0"
         self.doc["@graph"].append(creator)
         # Document info
         document = {}
         document["type"] = "SpdxDocument"
         document["spdxId"] = f"{self.domain}/{id}"
-        document["creationInfo"] = "_:creationinfo"
-        #document"dataLicense"] = "CCC"
+        document["creationInfo"] = "_:creationinfo_0"
         document["name"] = "VEX Document"
         document["profileConformance"] = []
         document["profileConformance"].append("core")
         document["profileConformance"].append("software")
-        document["profileConformance"].append("security")#
-        document["rootElement"] = [f"{self.domain}/VEX1"]
+        document["profileConformance"].append("security")
         self.doc["@graph"].append(document)
+        # sbom = {}
+        # sbom["type"] = "software_Sbom"
+        # sbom["spdxID"] = f"{self.domain}/SBOM_{id}"
+        # sbom["creationInfo"] = "_:creationinfo_0"
+        # sbom["software_sbomType"] = ["build"]
+        # self.doc["@graph"].append(sbom)
 
     def generate_spdx(self, vulnerabilities, metadata, product):
         self.revision = metadata.get("version", "0")
@@ -75,34 +87,35 @@ class SPDXVEXGenerator:
         # Properties are dependent on status
         vuln_properties = {
             "under_investigation":
-                {"type": "VexUnderInvestigationVulnAssessmentRelationship",
-                 "id": "urn:spdx.dev:vex-underInvestigation-1",
+                {"type": "security_VexUnderInvestigationVulnAssessmentRelationship",
+                 "id": "urn:spdx.dev:vex-underInvestigation",
                  "relationship": "underInvestigationFor",
                 },
             "not_affected":
-                {"type": "VexNotAffectedVulnAssessmentRelationship",
-                 "id": "urn:spdx.dev:vex-not-affected-1",
+                {"type": "security_VexNotAffectedVulnAssessmentRelationship",
+                 "id": "urn:spdx.dev:vex-not-affected",
                  "relationship": "doesNotAffect",
                  },
             "affected":
-                {"type": "VexAffectedVulnAssessmentRelationship",
-                 "id": "urn:spdx.dev:vex-affected-1",
+                {"type": "security_VexAffectedVulnAssessmentRelationship",
+                 "id": "urn:spdx.dev:vex-affected",
                  "relationship": "affects",
                  },
             "fixed":
-                {"type": "VexFixedVulnAssessmentRelationship",
-                 "id": "urn:spdx.dev:vex-fixed-in-1",
+                {"type": "security_VexFixedVulnAssessmentRelationship",
+                 "id": "urn:spdx.dev:vex-fixed-in",
                  "relationship": "fixedIn",
                  },
         }
 
+        vuln_id=0
         for vuln in vulnerabilities:
             vuln_info = Vulnerability(validation="spdx")
             vuln_info.copy_vulnerability(vuln)
             vulnerability = {}
             vuln_attributes= vuln_properties[vuln_info.get_value("status")]
-            vulnerability["@type"] = vuln_attributes["type"]
-            vulnerability["@id"] = vuln_attributes["id"]
+            vulnerability["type"] = vuln_attributes["type"]
+            vulnerability["spdxId"] = f'{vuln_attributes["id"]}-{vuln_id}'
             vulnerability["relationshipType"] = vuln_attributes["relationship"]
             id = vuln_info.get_value("id")
             vulnerability["from"] = f"urn:spdx.dev:vuln-{id}"
@@ -111,11 +124,10 @@ class SPDXVEXGenerator:
             # Could be a PURL
             purl = vuln_info.get_value("purl")
             if purl is not None:
-                vulnerability["assessedElement"] = f'urn:{purl.replace("pkg:","").replace("/","-").replace("@","-")}'
+                vulnerability["security_assessedElement"] = f'urn:{purl.replace("pkg:","").replace("/","-").replace("@","-")}'
             else:
-                vulnerability["assessedElement"] = f'urn:generic-{vuln_info.get_value("product")}-{vuln_info.get_value("release")}'
-            supplied_by = f"urn:spdx.dev:agent-{self.author.lower().replace(' ', '-')}"
-            vulnerability["suppliedBy"] = [supplied_by]
+                vulnerability["security_assessedElement"] = f'urn:generic-{vuln_info.get_value("product")}-{vuln_info.get_value("release")}'
+            vulnerability["suppliedBy"] = [self.supplied_by]
             if vuln_info.get_value("status") == "affected":
                 if "comment" in vuln:
                     vulnerability["actionStatement"] = vuln_info.get_value("comment")
@@ -134,10 +146,12 @@ class SPDXVEXGenerator:
                 else:
                     vulnerability["impactStatementTime"] = self.document_generation_time
             if "created" in vuln:
-                vulnerability["publishedTime"] = vuln_info.get_value("created")
+                vulnerability["security_publishedTime"] = vuln_info.get_value("created")
             else:
-                vulnerability["publishedTime"] = self.document_generation_time
+                vulnerability["security_publishedTime"] = self.document_generation_time
+            vulnerability["completeness"] = "complete"
             self.doc["@graph"].append(vulnerability)
+            vuln_id += 1
         # Now add software SBOM type?
 
     def get_document(self):
