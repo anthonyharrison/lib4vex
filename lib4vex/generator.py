@@ -107,6 +107,10 @@ class VEXGenerator:
                         # Component found in SBOM
                         valid_component = True
                         break
+                    elif product_name in name and release in version:
+                        # Part of component name found in SBOM
+                        valid_component = True
+                        break
             else:
                 # No component validation against SBOM
                 valid_component = True
