@@ -27,7 +27,7 @@ class OpenVEXGenerator:
         self.doc["author"] = self.author
         self.doc["role"] = self.creator
         self.doc["timestamp"] = self._generateTime()
-        self.doc["version"] = str(version)
+        self.doc["version"] = int(version)
 
     def generate_openvex(self, vulnerabilities, metadata):
         self.revision = metadata.get("version", "0")
